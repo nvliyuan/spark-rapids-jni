@@ -40,6 +40,7 @@
       <arg value="-DBUILD_TESTS=OFF"/>
       <arg value="-DCMAKE_CUDA_ARCHITECTURES=${GPU_ARCHS}"/>
       <arg value="-DCMAKE_INSTALL_PREFIX=${libcudf.install.path}"/>
+      <arg value="-DCUDA_ENABLE_LINEINFO=OFF"/>
       <arg value="-DCUDA_STATIC_RUNTIME=ON"/>
       <arg value="-DCUDF_ENABLE_ARROW_S3=OFF"/>
       <arg value="-DCUDF_ENABLE_ARROW_PARQUET=ON"/>
