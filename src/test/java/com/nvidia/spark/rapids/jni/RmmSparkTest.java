@@ -23,7 +23,7 @@ import ai.rapids.cudf.MemoryBuffer;
 import ai.rapids.cudf.Rmm;
 import ai.rapids.cudf.RmmAllocationMode;
 import ai.rapids.cudf.RmmCudaMemoryResource;
-import ai.rapids.cudf.RmmDeviceMemoryResource;
+import ai.rapids.cudf.RmmMemoryResource;
 import ai.rapids.cudf.RmmEventHandler;
 import ai.rapids.cudf.RmmLimitingResourceAdaptor;
 import ai.rapids.cudf.RmmTrackingResourceAdaptor;
@@ -631,7 +631,7 @@ public class RmmSparkTest {
   void setupRmmForTestingWithLimits(long maxAllocSize, RmmEventHandler eventHandler) {
     // Rmm.initialize is not going to limit allocations without a pool, so we
     // need to set it up ourselves.
-    RmmDeviceMemoryResource resource = null;
+    RmmMemoryResource resource = null;
     boolean succeeded = false;
     try {
       resource = new RmmCudaMemoryResource();

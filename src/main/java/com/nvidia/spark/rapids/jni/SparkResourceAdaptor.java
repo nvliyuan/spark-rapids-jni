@@ -18,12 +18,12 @@ package com.nvidia.spark.rapids.jni;
 import com.nvidia.spark.rapids.jni.RmmSpark.OomInjectionType;
 
 import ai.rapids.cudf.NativeDepsLoader;
-import ai.rapids.cudf.RmmDeviceMemoryResource;
+import ai.rapids.cudf.RmmMemoryResource;
 import ai.rapids.cudf.RmmEventHandlerResourceAdaptor;
-import ai.rapids.cudf.RmmWrappingDeviceMemoryResource;
+import ai.rapids.cudf.RmmWrappingMemoryResource;
 
 public class SparkResourceAdaptor
-    extends RmmWrappingDeviceMemoryResource<RmmEventHandlerResourceAdaptor<RmmDeviceMemoryResource>> {
+    extends RmmWrappingMemoryResource<RmmEventHandlerResourceAdaptor<RmmMemoryResource>> {
   static {
     NativeDepsLoader.loadNativeDeps();
   }
@@ -42,7 +42,7 @@ public class SparkResourceAdaptor
    * Create a new tracking resource adaptor.
    * @param wrapped the memory resource to track allocations. This should not be reused.
    */
-  public SparkResourceAdaptor(RmmEventHandlerResourceAdaptor<RmmDeviceMemoryResource> wrapped) {
+  public SparkResourceAdaptor(RmmEventHandlerResourceAdaptor<RmmMemoryResource> wrapped) {
     this(wrapped, null);
   }
 
@@ -53,7 +53,7 @@ public class SparkResourceAdaptor
    *               "stdout" is treated as going to stdout. null will disable logging and
    *               anything else is treated as a file name.
    */
-  public SparkResourceAdaptor(RmmEventHandlerResourceAdaptor<RmmDeviceMemoryResource> wrapped,
+  public SparkResourceAdaptor(RmmEventHandlerResourceAdaptor<RmmMemoryResource> wrapped,
       String logLoc) {
     super(wrapped);
     watchDog = new Thread(() -> {
