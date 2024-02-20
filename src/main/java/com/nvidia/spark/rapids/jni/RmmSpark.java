@@ -21,7 +21,7 @@ import ai.rapids.cudf.RmmDeviceMemoryResource;
 import ai.rapids.cudf.RmmEventHandler;
 import ai.rapids.cudf.RmmEventHandlerResourceAdaptor;
 import ai.rapids.cudf.RmmException;
-import ai.rapids.cudf.RmmTrackingDeviceResourceAdaptor;
+import ai.rapids.cudf.RmmTrackingResourceAdaptor;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -68,7 +68,7 @@ public class RmmSpark {
           deviceResource instanceof SparkResourceAdaptor) {
         throw new RuntimeException("Another event handler is already set");
       }
-      RmmTrackingDeviceResourceAdaptor<RmmDeviceMemoryResource> tracker = Rmm.getTracker();
+      RmmTrackingResourceAdaptor<RmmDeviceMemoryResource> tracker = Rmm.getTracker();
       if (tracker == null) {
         // This is just to be safe it should always be true if this is initialized.
         throw new RuntimeException("A tracker must be set for the event handler to work");

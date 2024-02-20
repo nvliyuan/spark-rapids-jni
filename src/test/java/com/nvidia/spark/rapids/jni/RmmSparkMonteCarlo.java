@@ -190,7 +190,7 @@ public class RmmSparkMonteCarlo {
     if (allocationMode == RmmAllocationMode.CUDA_DEFAULT) {
       // We want to limit the total size, but Rmm will not do that by default...
       // Setup Rmm is a simple way
-      RmmMemoryResource resource = null;
+      RmmDeviceMemoryResource resource = null;
       boolean succeeded = false;
       try {
         resource = new RmmCudaMemoryResource();
