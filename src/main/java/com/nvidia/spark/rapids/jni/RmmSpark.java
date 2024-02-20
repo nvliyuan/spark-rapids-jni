@@ -17,11 +17,11 @@
 package com.nvidia.spark.rapids.jni;
 
 import ai.rapids.cudf.Rmm;
-import ai.rapids.cudf.RmmMemoryResource;
+import ai.rapids.cudf.RmmDeviceMemoryResource;
 import ai.rapids.cudf.RmmEventHandler;
 import ai.rapids.cudf.RmmEventHandlerResourceAdaptor;
 import ai.rapids.cudf.RmmException;
-import ai.rapids.cudf.RmmTrackingResourceAdaptor;
+import ai.rapids.cudf.RmmTrackingDeviceResourceAdaptor;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -63,17 +63,17 @@ public class RmmSpark {
       if (!Rmm.isInitialized()) {
         throw new RuntimeException("RMM has not been initialized");
       }
-      RmmMemoryResource deviceResource = Rmm.getCurrentDeviceResource();
+      RmmDeviceMemoryResource deviceResource = Rmm.getCurrentDeviceResource();
       if (deviceResource instanceof RmmEventHandlerResourceAdaptor ||
           deviceResource instanceof SparkResourceAdaptor) {
         throw new RuntimeException("Another event handler is already set");
       }
-      RmmTrackingResourceAdaptor<RmmMemoryResource> tracker = Rmm.getTracker();
+      RmmTrackingDeviceResourceAdaptor<RmmDeviceMemoryResource> tracker = Rmm.getTracker();
       if (tracker == null) {
         // This is just to be safe it should always be true if this is initialized.
         throw new RuntimeException("A tracker must be set for the event handler to work");
       }
-      RmmEventHandlerResourceAdaptor<RmmMemoryResource> eventHandler =
+      RmmEventHandlerResourceAdaptor<RmmDeviceMemoryResource> eventHandler =
           new RmmEventHandlerResourceAdaptor<>(deviceResource, tracker, handler, false);
       sra = new SparkResourceAdaptor(eventHandler, logLocation);
       boolean success = false;
@@ -96,10 +96,10 @@ public class RmmSpark {
   public static void clearEventHandler() throws RmmException {
     // synchronize with RMM not RmmSpark to stay in sync with Rmm itself.
     synchronized (Rmm.class) {
-      RmmMemoryResource deviceResource = Rmm.getCurrentDeviceResource();
+      RmmDeviceMemoryResource deviceResource = Rmm.getCurrentDeviceResource();
       if (deviceResource instanceof SparkResourceAdaptor) {
         SparkResourceAdaptor sra = (SparkResourceAdaptor) deviceResource;
-        RmmEventHandlerResourceAdaptor<RmmMemoryResource> event = sra.getWrapped();
+        RmmEventHandlerResourceAdaptor<RmmDeviceMemoryResource> event = sra.getWrapped();
         boolean success = false;
         try {
           Rmm.setCurrentDeviceResource(event.getWrapped(), sra, false);
