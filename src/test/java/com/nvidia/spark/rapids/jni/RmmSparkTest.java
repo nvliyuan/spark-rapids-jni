@@ -23,10 +23,10 @@ import ai.rapids.cudf.MemoryBuffer;
 import ai.rapids.cudf.Rmm;
 import ai.rapids.cudf.RmmAllocationMode;
 import ai.rapids.cudf.RmmCudaMemoryResource;
-import ai.rapids.cudf.RmmMemoryResource;
+import ai.rapids.cudf.RmmDeviceMemoryResource;
 import ai.rapids.cudf.RmmEventHandler;
 import ai.rapids.cudf.RmmLimitingResourceAdaptor;
-import ai.rapids.cudf.RmmTrackingResourceAdaptor;
+import ai.rapids.cudf.RmmTrackingDeviceResourceAdaptor;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -631,12 +631,12 @@ public class RmmSparkTest {
   void setupRmmForTestingWithLimits(long maxAllocSize, RmmEventHandler eventHandler) {
     // Rmm.initialize is not going to limit allocations without a pool, so we
     // need to set it up ourselves.
-    RmmMemoryResource resource = null;
+    RmmDeviceMemoryResource resource = null;
     boolean succeeded = false;
     try {
       resource = new RmmCudaMemoryResource();
       resource = new RmmLimitingResourceAdaptor<>(resource, maxAllocSize, 256);
-      resource = new RmmTrackingResourceAdaptor<>(resource, 256);
+      resource = new RmmTrackingDeviceResourceAdaptor<>(resource, 256);
       Rmm.setCurrentDeviceResource(resource, null, false);
       succeeded = true;
     } finally {

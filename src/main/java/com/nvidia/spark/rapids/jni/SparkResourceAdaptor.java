@@ -20,10 +20,10 @@ import com.nvidia.spark.rapids.jni.RmmSpark.OomInjectionType;
 import ai.rapids.cudf.NativeDepsLoader;
 import ai.rapids.cudf.RmmDeviceMemoryResource;
 import ai.rapids.cudf.RmmEventHandlerResourceAdaptor;
-import ai.rapids.cudf.RmmWrappingMemoryResource;
+import ai.rapids.cudf.RmmWrappingDeviceMemoryResource;
 
 public class SparkResourceAdaptor
-    extends RmmWrappingMemoryResource<RmmEventHandlerResourceAdaptor<RmmDeviceMemoryResource>> {
+    extends RmmWrappingDeviceMemoryResource<RmmEventHandlerResourceAdaptor<RmmDeviceMemoryResource>> {
   static {
     NativeDepsLoader.loadNativeDeps();
   }
