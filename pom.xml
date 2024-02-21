@@ -412,7 +412,6 @@
                   <env key="CUDF_CPP_BUILD_DIR" value="${libcudf.build.path}"/>
                   <env key="CUDF_ROOT" value="${cudf.path}"/>
                   <arg value="${cudf.path}/java/src/main/native"/>
-		  <arg value="-DCUDA_ENABLE_LINEINFO=ON"/>
                   <arg value="-DBUILD_SHARED_LIBS=OFF"/>
                   <arg value="-DCUDA_STATIC_RUNTIME=ON"/>
                   <arg value="-DCUDF_JNI_LIBCUDF_STATIC=ON"/>
@@ -446,7 +445,6 @@
                   <arg value="${basedir}/src/main/cpp"/>
                   <arg value="-DGPU_ARCHS=${GPU_ARCHS}"/>
                   <arg value="-DCUDF_USE_PER_THREAD_DEFAULT_STREAM=${CUDF_USE_PER_THREAD_DEFAULT_STREAM}"/>
-		  <arg value="-DCUDA_ENABLE_LINEINFO=ON"/>
                   <arg value="-DRMM_LOGGING_LEVEL=${RMM_LOGGING_LEVEL}"/>
                   <arg value="-DUSE_GDS=${USE_GDS}"/>
                   <arg value="-DBUILD_TESTS=${BUILD_TESTS}"/>
